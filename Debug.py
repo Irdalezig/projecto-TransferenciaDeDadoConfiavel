@@ -76,3 +76,5 @@ class PacketDebugger:
         if address:
             log_message += f", Endereço={address}"
         logging.info(log_message)
+
+        #fim do ficheiro
