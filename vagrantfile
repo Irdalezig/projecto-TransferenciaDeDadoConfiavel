@@ -1,0 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# RCI, 2024. Estudante: 20220518@isptec.co.ao
+
+Vagrant.configure("2") do |config|
+  # Configuração para o file-receiver
+  config.ssh.insert_key = false
+  config.vbguest.auto_update = false
+  config.vm.define "file-receiver" do |web_config|
+    web_config.vm.box = "ubuntu/focal64"
+    web_config.vm.hostname = "file-receiver"
+    web_config.vm.network "private_network", ip: "192.168.56.21"
+
+    # Sincronizar pasta do host para a VM
+    web_config.vm.synced_folder ".", "/vagrant"
+
+    web_config.vm.provider "virtualbox" do |vb|
+      vb.name = "file-receiver"
+    end # do vb
+  end # do web_config
+
+  # Configuração para o file-sender
+  config.vm.define "file-sender" do |client_config|
+    client_config.vm.box = "ubuntu/focal64"
+    client_config.vm.hostname = "file-sender"
+    client_config.vm.network "private_network", ip: "192.168.56.11"
+
+    # Sincronizar pasta do host para a VM
+    client_config.vm.synced_folder ".", "/vagrant"
+
+    client_config.vm.provider "virtualbox" do |vb|
+      vb.name = "file-sender"
+    end # do vb
+  end # do client_config
+end # do config
